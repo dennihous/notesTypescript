@@ -1,14 +1,26 @@
-import { FormEvent, useRef } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { Button, Col, Form, Row, Stack } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CreatableReactSelect from "react-select/creatable"
+import { NoteData, Tag } from "./App";
 
-export function NoteForm({ onSubmit }){
+type NoteFormProps = {
+  onSubmit: (data: NoteData) => void
+}
+
+export function NoteForm({ onSubmit }: NoteFormProps){
   const titleRef = useRef<HTMLInputElement>(null)
   const markdownRef = useRef<HTMLTextAreaElement>(null)
+  const [selectedTags, setSelectedTags] = useState<Tag[]>([])
 
   function handleSubmit(e: FormEvent){
     e.preventDefault()
+
+    onSubmit({
+      title: titleRef.current!.value,
+      markdown: markdownRef.current!.value,
+      tags: [],
+    })
   }
 
   return (
